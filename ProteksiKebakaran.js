@@ -200,6 +200,7 @@ router.post(
         .collection(dbname.proteksi_kebakaran_area)
         .findOne({
           cabang: req.body.cabang,
+          bangunan: req.body.bangunan,
           year: new Date().getFullYear(),
           month: new Date().getMonth() + 1,
         });
