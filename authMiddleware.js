@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const db = require('./db');
-const dbname = require('./dbname');
+const dbname = require('./dbName');
 const constants = require('./constants');
 var md5 = require('md5');
 
