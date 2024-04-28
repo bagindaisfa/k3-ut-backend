@@ -57,7 +57,10 @@ router.post(
       console.log(error);
       res
         .status(500)
-        .json({ result: false, error: 'An error occurred while saving data.' });
+        .json({
+          result: false,
+          error: 'An error occurred. Please check your data!',
+        });
     }
   }
 );
@@ -174,7 +177,10 @@ router.put(
       console.log(error);
       res
         .status(500)
-        .json({ result: false, error: 'An error occurred while saving data.' });
+        .json({
+          result: false,
+          error: 'An error occurred. Please check your data!',
+        });
     }
   }
 );
