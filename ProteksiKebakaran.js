@@ -168,12 +168,10 @@ router.post(
       });
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({
-          result: false,
-          error: 'An error occurred. Please check your data!',
-        });
+      res.status(500).json({
+        result: false,
+        error: 'An error occurred. Please check your data!',
+      });
     }
   }
 );
@@ -203,6 +201,8 @@ router.post(
         .collection(dbname.proteksi_kebakaran_area)
         .findOne({
           cabang: req.body.cabang,
+          site: req.body.site,
+          plant: req.body.plant,
           bangunan: req.body.bangunan,
           year: new Date().getFullYear(),
           month: new Date().getMonth() + 1,
@@ -220,6 +220,8 @@ router.post(
         role: req.body.role,
         account_name: req.body.account_name,
         cabang: req.body.cabang,
+        site: req.body.site,
+        plant: req.body.plant,
         bangunan: req.body.bangunan,
         luas_bangunan: req.body.luas_bangunan,
         status_kepemilikan_area: req.body.status_kepemilikan_area,
@@ -331,12 +333,10 @@ router.post(
       });
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({
-          result: false,
-          error: 'An error occurred. Please check your data!',
-        });
+      res.status(500).json({
+        result: false,
+        error: 'An error occurred. Please check your data!',
+      });
     }
   }
 );
@@ -447,15 +447,30 @@ router.get(
   authentication(constants.ALL),
   async (req, res) => {
     try {
+      const isHO = req.query.role && req.query.role.endsWith('-HO');
       let input = req.id;
       if (req.rolename == constants.ROLE_ADMIN) {
         input = req.query.account;
       }
+      let filter = {};
+      if (req.query.cabang !== 'none') {
+        filter.cabang = req.query.cabang;
+      } else if (req.query.site !== 'none') {
+        filter.site = req.query.site;
+      } else if (req.query.plant !== 'none') {
+        filter.plant = req.query.plant;
+      }
+
+      let filterRole = {};
+      if (req.query.role !== 'ADMIN' && !isHO) {
+        filterRole.role = req.query.role;
+      }
+
       const office = await db
         .collection(dbname.proteksi_kebakaran_area)
         .find({
-          role: req.query.role,
-          cabang: req.query.cabang,
+          ...filter,
+          ...filterRole,
           bangunan: 'office',
           year: parseInt(req.query.year),
           month: parseInt(req.query.month),
@@ -464,8 +479,8 @@ router.get(
       const workshop = await db
         .collection(dbname.proteksi_kebakaran_area)
         .find({
-          role: req.query.role,
-          cabang: req.query.cabang,
+          ...filter,
+          ...filterRole,
           bangunan: 'workshop',
           year: parseInt(req.query.year),
           month: parseInt(req.query.month),
@@ -474,8 +489,8 @@ router.get(
       const warehouse = await db
         .collection(dbname.proteksi_kebakaran_area)
         .find({
-          role: req.query.role,
-          cabang: req.query.cabang,
+          ...filter,
+          ...filterRole,
           bangunan: 'warehouse',
           year: parseInt(req.query.year),
           month: parseInt(req.query.month),
@@ -484,8 +499,8 @@ router.get(
       const mess = await db
         .collection(dbname.proteksi_kebakaran_area)
         .find({
-          role: req.query.role,
-          cabang: req.query.cabang,
+          ...filter,
+          ...filterRole,
           bangunan: 'mess',
           year: parseInt(req.query.year),
           month: parseInt(req.query.month),
@@ -495,12 +510,13 @@ router.get(
       const query = await db
         .collection(_dbName)
         .find({
-          role: req.query.role,
-          cabang: req.query.cabang,
+          ...filter,
+          ...filterRole,
           year: parseInt(req.query.year),
           month: parseInt(req.query.month),
         })
         .toArray();
+
       res.json({
         result: true,
         data: query,
@@ -725,12 +741,10 @@ router.put(
       res.json({ result: true, message: 'success', response: query });
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({
-          result: false,
-          error: 'An error occurred. Please check your data!',
-        });
+      res.status(500).json({
+        result: false,
+        error: 'An error occurred. Please check your data!',
+      });
     }
   }
 );
@@ -761,6 +775,8 @@ router.put(
           role: req.body.role,
           account_name: req.body.account_name,
           cabang: req.body.cabang,
+          site: req.body.site,
+          plant: req.body.plant,
           luas_bangunan: req.body.luas_bangunan,
           status_kepemilikan_area: req.body.status_kepemilikan_area,
 
@@ -870,12 +886,10 @@ router.put(
       res.json({ result: true, message: 'success', response: query });
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({
-          result: false,
-          error: 'An error occurred. Please check your data!',
-        });
+      res.status(500).json({
+        result: false,
+        error: 'An error occurred. Please check your data!',
+      });
     }
   }
 );
