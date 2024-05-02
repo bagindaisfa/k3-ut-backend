@@ -116,8 +116,8 @@ router.post(
         account_name: req.body.account_name,
 
         cabang: req.body.cabang,
-        site: req.body.site,
-        plant: req.body.plant,
+        site: req.body.site === 'undefined' ? '' : req.body.site,
+        plant: req.body.plant === 'undefined' ? '' : req.body.plant,
         nama_BM_SM: req.body.nama_BM_SM,
         nama_ADH: req.body.nama_ADH,
         nama_ESR_Officer_Leader: req.body.nama_ESR_Officer_Leader,
@@ -388,6 +388,7 @@ router.get(
         .collection(_dbName)
         .find({
           role: req.query.role,
+          account_name: req.query.account_name,
           year: parseInt(req.query.year),
           month: parseInt(req.query.month),
         })
@@ -427,6 +428,7 @@ router.get(
         .collection(_dbName)
         .find({
           role: req.query.role,
+          account_name: req.query.account_name,
           cabang: req.query.cabang,
           site: req.query.site,
           plant: req.query.plant,
@@ -464,6 +466,7 @@ router.get(
       let filterRole = {};
       if (req.query.role !== 'ADMIN' && !isHO) {
         filterRole.role = req.query.role;
+        filterRole.account_name = req.query.account_name;
       }
 
       const office = await db
@@ -561,6 +564,7 @@ router.get(
           .collection(dbname.proteksi_kebakaran_area)
           .find({
             role: req.query.role,
+            account_name: req.query.account_name,
             cabang: req.query.cabang,
             bangunan: req.query.bangunan,
             year: parseInt(req.query.year),
@@ -688,8 +692,8 @@ router.put(
           account_name: req.body.account_name,
 
           cabang: req.body.cabang,
-          site: req.body.site,
-          plant: req.body.plant,
+          site: req.body.site === 'undefined' ? '' : req.body.site,
+          plant: req.body.plant === 'undefined' ? '' : req.body.plant,
           nama_BM_SM: req.body.nama_BM_SM,
           nama_ADH: req.body.nama_ADH,
           nama_ESR_Officer_Leader: req.body.nama_ESR_Officer_Leader,

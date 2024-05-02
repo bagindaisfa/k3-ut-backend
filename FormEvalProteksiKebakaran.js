@@ -55,12 +55,10 @@ router.post(
       });
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({
-          result: false,
-          error: 'An error occurred. Please check your data!',
-        });
+      res.status(500).json({
+        result: false,
+        error: 'An error occurred. Please check your data!',
+      });
     }
   }
 );
@@ -92,6 +90,7 @@ router.get(
         .collection(_dbName)
         .find({
           role: req.query.role,
+          account_name: req.query.account_name,
           year: parseInt(req.query.year),
           month: parseInt(req.query.month),
         })
@@ -175,12 +174,10 @@ router.put(
       res.json({ result: true, message: 'success', response: query });
     } catch (error) {
       console.log(error);
-      res
-        .status(500)
-        .json({
-          result: false,
-          error: 'An error occurred. Please check your data!',
-        });
+      res.status(500).json({
+        result: false,
+        error: 'An error occurred. Please check your data!',
+      });
     }
   }
 );
