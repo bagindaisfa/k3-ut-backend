@@ -653,41 +653,8 @@ router.put(
   ]),
   async (req, res) => {
     try {
-      const sertifikat_kepemilikan =
-        req.files['sertifikat_kepemilikan'][0].filename;
-      const petugas_peran_kebakaran =
-        req.files['petugas_peran_kebakaran'][0].filename;
-      const regu_penanggulangan_kebakaran =
-        req.files['regu_penanggulangan_kebakaran'][0].filename;
-      const koord_regu_penanggulangan_kebakaran =
-        req.files['koord_regu_penanggulangan_kebakaran'][0].filename;
-      const ahli_k3_spesialis_penanggulangan_kebakaran =
-        req.files['ahli_k3_spesialis_penanggulangan_kebakaran'][0].filename;
-      const identifikasi_bahaya = req.files['identifikasi_bahaya'][0].filename;
-      const struktur_organisasi_tktd =
-        req.files['struktur_organisasi_tktd'][0].filename;
-      const dokumentasi_sosialisasi =
-        req.files['dokumentasi_sosialisasi'][0].filename;
-      const rekam_data_inspeksi = req.files['rekam_data_inspeksi'][0].filename;
-      const dokumen_laporan_simulasi =
-        req.files['dokumen_laporan_simulasi'][0].filename;
-      const jml_karyawan_simulasi =
-        req.files['jml_karyawan_simulasi'][0].filename;
       const data = {
         $set: {
-          sertifikat_kepemilikan_file: sertifikat_kepemilikan,
-          petugas_peran_kebakaran_file: petugas_peran_kebakaran,
-          regu_penanggulangan_kebakaran_file: regu_penanggulangan_kebakaran,
-          koord_regu_penanggulangan_kebakaran_file:
-            koord_regu_penanggulangan_kebakaran,
-          ahli_k3_spesialis_penanggulangan_kebakaran_file:
-            ahli_k3_spesialis_penanggulangan_kebakaran,
-          identifikasi_bahaya_file: identifikasi_bahaya,
-          struktur_organisasi_tktd_file: struktur_organisasi_tktd,
-          dokumentasi_sosialisasi_file: dokumentasi_sosialisasi,
-          rekam_data_inspeksi_file: rekam_data_inspeksi,
-          dokumen_laporan_simulasi_file: dokumen_laporan_simulasi,
-          jml_karyawan_simulasi_file: jml_karyawan_simulasi,
           role: req.body.role,
           account_name: req.body.account_name,
 
@@ -739,6 +706,54 @@ router.put(
         },
       };
 
+      if (req.files) {
+        if (req.files['sertifikat_kepemilikan']) {
+          data.$set.sertifikat_kepemilikan_file =
+            req.files['sertifikat_kepemilikan'][0].filename;
+        }
+        if (req.files['petugas_peran_kebakaran']) {
+          data.$set.petugas_peran_kebakaran_file =
+            req.files['petugas_peran_kebakaran'][0].filename;
+        }
+        // Repeat this pattern for other file fields
+        if (req.files['regu_penanggulangan_kebakaran']) {
+          data.$set.regu_penanggulangan_kebakaran_file =
+            req.files['regu_penanggulangan_kebakaran'][0].filename;
+        }
+        if (req.files['koord_regu_penanggulangan_kebakaran']) {
+          data.$set.koord_regu_penanggulangan_kebakaran_file =
+            req.files['koord_regu_penanggulangan_kebakaran'][0].filename;
+        }
+
+        if (req.files['ahli_k3_spesialis_penanggulangan_kebakaran']) {
+          data.$set.ahli_k3_spesialis_penanggulangan_kebakaran_file =
+            req.files['ahli_k3_spesialis_penanggulangan_kebakaran'][0].filename;
+        }
+        if (req.files['identifikasi_bahaya']) {
+          data.$set.identifikasi_bahaya_file =
+            req.files['identifikasi_bahaya'][0].filename;
+        }
+        if (req.files['struktur_organisasi_tktd']) {
+          data.$set.struktur_organisasi_tktd_file =
+            req.files['struktur_organisasi_tktd'][0].filename;
+        }
+        if (req.files['dokumentasi_sosialisasi']) {
+          data.$set.dokumentasi_sosialisasi_file =
+            req.files['dokumentasi_sosialisasi'][0].filename;
+        }
+        if (req.files['rekam_data_inspeksi']) {
+          data.$set.rekam_data_inspeksi_file =
+            req.files['rekam_data_inspeksi'][0].filename;
+        }
+        if (req.files['dokumen_laporan_simulasi']) {
+          data.$set.dokumen_laporan_simulasi_file =
+            req.files['dokumen_laporan_simulasi'][0].filename;
+        }
+        if (req.files['jml_karyawan_simulasi']) {
+          data.$set.jml_karyawan_simulasi_file =
+            req.files['jml_karyawan_simulasi'][0].filename;
+        }
+      }
       const query = await db
         .collection(_dbName)
         .updateOne({ _id: new ObjectId(req.params.id) }, data);
