@@ -751,6 +751,45 @@ router.put(
 
 /**
  * @swagger
+ * /api/proteksi-kebakaran-rekomendasi/edit/:id:
+ *   delete:
+ *     summary:
+ *     tags: [ProteksiKebakaran]
+ *     responses:
+ *       200:
+ *         description: Successful response
+ *         content:
+ *           application/json:
+ *             example:
+ *               message: ''
+ */
+router.put(
+  '/proteksi-kebakaran-rekomendasi/edit/:id',
+  authentication(constants.ALL),
+  async (req, res) => {
+    try {
+      const data = {
+        $set: {
+          rekomendasi: req.body.rekomendasi,
+        },
+      };
+
+      const query = await db
+        .collection(_dbName)
+        .updateOne({ _id: new ObjectId(req.params.id) }, data);
+      res.json({ result: true, message: 'success', response: query });
+    } catch (error) {
+      console.log(error);
+      res.status(500).json({
+        result: false,
+        error: 'An error occurred. Please check your data!',
+      });
+    }
+  }
+);
+
+/**
+ * @swagger
  * /api/proteksi-kebakaran-area/edit/:id:
  *   delete:
  *     summary:
