@@ -38,13 +38,9 @@ router.post('/login', async (req, res) => {
     };
     const query = await db.collection(dbname.account).findOne(where);
     if (query != null || query != undefined) {
-      const token = jwt.sign(
-        dataJwt,
-        'iwiqowqo39283983jskjdksdsk3u2328329sdnsmncmndsmjherheHHKdksdksjdqiqi',
-        {
-          expiresIn: '1d',
-        }
-      );
+      const token = jwt.sign(dataJwt, process.env.TOKEN_SECRET, {
+        expiresIn: '1d',
+      });
       await db
         .collection(dbname.account)
         .updateOne(where, { $set: { token: token, last_update: new Date() } });

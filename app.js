@@ -11,7 +11,7 @@ const db = require('./db');
 
 dotenv.config();
 
-const PORT = 3001;
+const PORT = process.env.PORT;
 const secretKey = process.env.SECRET;
 const ISDEV = 'true';
 const app = express();
@@ -33,7 +33,7 @@ app.use(function (req, res, next) {
 app.set('view engine', 'html');
 app.engine('html', require('ejs').renderFile);
 
-if (ISDEV == 'true') {
+if (process.env.ISDEV == 'true') {
   const swaggerDefinition = {
     info: {
       title: 'App',
@@ -58,8 +58,8 @@ app.use('/api', function (req, res, next) {
     const clientSecret = req.headers['client-secret'];
 
     if (
-      clientId == 'ClientIdDashboard2024' &&
-      clientSecret == 'ClientSecretDashboard2024'
+      clientId == process.env.CLIENT_ID &&
+      clientSecret == process.env.CLIENT_SECRET
     ) {
       next();
     } else {
@@ -81,7 +81,7 @@ app.get('/web', (req, res) => {
 
 app.listen(PORT, async (error) => {
   if (!error) {
-    console.log('server running || port : ' + 3001);
+    console.log('server running || port : ' + process.env.PORT);
   } else {
     console.log("Error occurred, server can't start", error);
   }

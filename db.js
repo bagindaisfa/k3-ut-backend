@@ -3,8 +3,7 @@ const dotenv = require('dotenv'),
 const mongoose = require('mongoose');
 
 dotenv.config();
-const url_db =
-  'mongodb://admin2024:paSSwordMongodb2024@77.37.67.76:27017/dsh?authSource=admin&readPreference=primary&appname=MongoDB%20Compass&ssl=false';
+const url_db = process.env.DB;
 
 mongoose.connect(url_db, {
   useNewUrlParser: true,
